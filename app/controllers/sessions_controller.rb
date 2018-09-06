@@ -14,11 +14,10 @@ class SessionsController < ApplicationController
 
   #Verifies the access_token so the client app would know if to login the user.
   def verify_access_token
-      user = User.find_by(auth_token: params[:auth_token])
+      user = User.find_by(auth_token: :auth_token)
     if user
 
       #render json: {message:"verified",  status: 200}
-      #render text: "verified", status: 200
       render plain: "verified", status: 200
     else
 
@@ -39,6 +38,7 @@ private
 
 def send_token_for_valid_login_of(user)
   render json: {token: user.auth_token, status: 200}
+
 end
 
 def allow_token_to_be_used_only_once_for(user)
