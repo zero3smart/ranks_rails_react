@@ -4,7 +4,7 @@ Rails.application.routes.draw do
 
   post   'login'   => 'sessions#create', format: 'json'
     delete 'logout'  => 'sessions#destroy'
-    get    'verify'  => 'sessions#verify_access_token', format: 'json', param: :auth_token
+    get    'verify'  => 'sessions#verify_access_token', param: :auth_token
     get    'forgot'  => 'password_resets#new'
     resources :users, param: :auth_token
     #resources :videos, param: :access_token
