@@ -17,8 +17,8 @@ class SessionsController < ApplicationController
       user = User.find_by(auth_token: params[:auth_token])
     if user
 
-      #render json: {message:"verified",  status: 200}
-      render plain: "verified", status: 200
+      render json: {message:"verified",  status: 200}
+      #render plain: "verified", status: 200
     else
 
       render_unauthorized("Token failed verification")
