@@ -11,6 +11,8 @@ class UsersController < ApplicationController
 
   # GET /users/1
   def show
+     #@user = User.find_by_auth_token!(request.headers[:token])
+      @user = User.find_by(request.headers[:auth_token])
     render json: @user, status: 200
   end
 
