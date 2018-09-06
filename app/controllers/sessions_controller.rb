@@ -14,7 +14,7 @@ class SessionsController < ApplicationController
 
   #Verifies the access_token so the client app would know if to login the user.
   def verify_access_token
-      user = User.find_by(auth_token: :auth_token)
+      user = User.find_by(auth_token: params[:auth_token])
     if user
 
       #render json: {message:"verified",  status: 200}
