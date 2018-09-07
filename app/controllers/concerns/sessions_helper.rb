@@ -1,8 +1,8 @@
 module SessionsHelper
 
-  def current_user
-    @current_user ||= authenticate_token
-  end
+ # def current_user
+  #  @current_user ||= authenticate_token
+  #end
 
   # Returns the current logged-in user (if any).
 
@@ -31,10 +31,10 @@ module SessionsHelper
   private
 
 
-  def authenticate_token
-    authenticate_with_http_token do |token, options |
-      User.find_by(auth_token: token)
-    end
-  end
+#  def authenticate_token
+ #    authenticate_with_http_token do |token, options |
+  #    User.find_by(auth_token: token)
+   # end
+  #end
 
 end

@@ -34,6 +34,13 @@ class User < ApplicationRecord
     end
   end
 
+
+def has_valid_token?(token)
+    self.tokens.each do |stored_token|
+      return true if stored_token['auth_token'] == token 
+    end
+    false
+  end
  
 
   # Sets the password reset attributes.

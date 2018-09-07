@@ -12,14 +12,20 @@ class SessionsController < ApplicationController
     end
   end
 
+
+
   #Verifies the access_token so the client app would know if to login the user.
   def verify_token
-      
-       user = User.find_by(request.headers[:auth_token])
-    if user
+
+    @current_user ||= authenticate_token
+
+    #@current_user = User.find_by(auth_token:
+    #request.headers["token"] )
+
+    if @current_user
 
       render json: {message:"verified",  status: 200}
-   
+
     else
 
       render_unauthorized("Token failed verification")
@@ -27,27 +33,33 @@ class SessionsController < ApplicationController
   end
 
 
+  protected
 
-def destroy
-  logout
-  head :ok
-end
+  def authenticate_token
+
+    authenticate_or_request_with_http_token do |token, options |
+      User.find_by(auth_token: token)
+    end
+  end
 
 
+  def destroy
+    logout
+    head :ok
+  end
 
-private
 
-def send_token_for_valid_login_of(user)
-  render json: {token: user.auth_token, status: 200}
+  def send_token_for_valid_login_of(user)
+    render json: {token: user.auth_token, status: 200}
 
-end
+  end
 
-def allow_token_to_be_used_only_once_for(user)
-  user.regenerate_auth_token
-end
+  def allow_token_to_be_used_only_once_for(user)
+    user.regenerate_auth_token
+  end
 
-def logout
-  current_user.ivalidate_token
-end
+  def logout
+    current_user.ivalidate_token
+  end
 
 end
