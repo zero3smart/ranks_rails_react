@@ -44,10 +44,10 @@ class SessionsController < ApplicationController
 
 
   def send_token_for_valid_login_of(user)
-    #render json: user.auth_token, status: 200
-  
+    render json: {token:user.auth_token, status: 200}
+   render plain: user.auth_token, status: 201
 
-  render :plain => user.auth_token, status: 200
+  #render :plain => user.auth_token, status: 200
   end
 
   def allow_token_to_be_used_only_once_for(user)
