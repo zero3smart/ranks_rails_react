@@ -1,20 +1,32 @@
 class UsersController < ApplicationController
-  before_action :set_user, only: [:show, :update, :destroy]
+  before_action :set_user, only: [:show, :profile, :update, :destroy]
 
   # GET /users
   def index
     @users = User.all
-
     render json: @users, status: 200
   end
 
+  def profile
+    render json: @user, status: 200
+  end
+
+  def edit_profile
+    render json: @user, status: 200
+  end
+
+  def update_profile
+    if @user.update!(user_params)
+
+      render json: "Account has been updated successfully", status: 200
+    else
+      render json: @user.errors, status: 422
+    end
+  end
 
   # GET /users/1
   def show
-     #@user = User.find_by_auth_token!(request.headers[:token])
-      #@user = User.find_by(params[:auth_token])
-      #@user = User.find_by(auth_token:
-    #params[:auth_token] )
+
     render json: @user, status: 200
   end
 
@@ -25,8 +37,8 @@ class UsersController < ApplicationController
     if @user.save
 
       #render json: { token: @user.auth_token }, status: 201
-         render plain: @user.auth_token, status: 201
-        
+      render plain: @user.auth_token, status: 201
+
     else
       render json: @user.errors, status: 422
     end
@@ -54,7 +66,9 @@ class UsersController < ApplicationController
   private
   # Use callbacks to share common setup or constraints between actions.
   def set_user
-    @user = User.find_by(auth_token: params[:auth_token])
+    #@user = User.find_by(auth_token: params[:auth_token])
+    @user = User.find_by(auth_token: request.headers["Access"])
+
   end
 
   # Only allow a trusted parameter "white list" through.

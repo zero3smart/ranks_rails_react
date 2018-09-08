@@ -4,11 +4,14 @@ Rails.application.routes.draw do
 
    post   'login'   => 'sessions#create'
     delete 'logout'  => 'sessions#destroy'
-    get    'verify'  => 'sessions#verify_token'
-    
+    get    'verify'  => 'sessions#verify_token'    
     get    'forgot'  => 'password_resets#new'
-    resources :users, param: :auth_token
-    #resources :videos, param: :access_token
+
+    get   'profile' =>  'users#profile'
+    patch   'profile/edit' =>  'users#edit_profile'
+    update   'profile/update' =>  'users#update_profile'
+    resources :users, param: :auth_token, only: [:index,:new,:create]
+    
     resources :password_resets, only: [:new, :create, :edit, :update]
 
     root 'users#index'
