@@ -28,7 +28,7 @@ module SessionsHelper
     render json: errors, status: :unauthorized
   end
 
-  private
+ # private
 
 
 #  def authenticate_token

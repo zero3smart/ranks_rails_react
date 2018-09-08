@@ -18,11 +18,11 @@ class SessionsController < ApplicationController
   def verify_token
 
 
-    #@current_user = User.find_by(auth_token:
-    #request.headers["token"] )
-
     user = User.find_by(auth_token:
-    params[:auth_token] )
+    request.headers["Access-Token"] )
+
+    #user = User.find_by(auth_token:
+    #params[:auth_token] )
 
 
     if user
@@ -45,7 +45,9 @@ class SessionsController < ApplicationController
 
   def send_token_for_valid_login_of(user)
     render json: {token: user.auth_token, status: 200}
+  
 
+  #render :plain => user.auth_token, status: 200
   end
 
   def allow_token_to_be_used_only_once_for(user)
