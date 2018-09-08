@@ -19,7 +19,7 @@ class SessionsController < ApplicationController
 
 
     user = User.find_by(auth_token:
-    request.headers["Access-Token"] )
+    request.headers["Access-Token"])
 
     #user = User.find_by(auth_token:
     #params[:auth_token] )
