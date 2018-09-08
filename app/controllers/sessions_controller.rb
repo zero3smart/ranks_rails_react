@@ -21,11 +21,11 @@ class SessionsController < ApplicationController
     #@current_user = User.find_by(auth_token:
     #request.headers["token"] )
 
-    @current_user = User.find_by(auth_token:
+    user = User.find_by(auth_token:
     params[:auth_token] )
 
 
-    if @current_user
+    if user
 
       render json: {message:"verified",  status: 200}
 
