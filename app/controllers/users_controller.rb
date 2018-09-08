@@ -25,7 +25,8 @@ class UsersController < ApplicationController
     if @user.save
 
       #render json: { token: @user.auth_token }, status: 201
-        render json: @user.auth_token, status: 201
+         render plain: @user.auth_token, status: 201
+        
     else
       render json: @user.errors, status: 422
     end
