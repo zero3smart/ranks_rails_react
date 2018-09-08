@@ -17,10 +17,9 @@ class SessionsController < ApplicationController
   #Verifies the access_token so the client app would know if to login the user.
   def verify_token
 
-    @current_user ||= authenticate_token
 
-    #@current_user = User.find_by(auth_token:
-    #request.headers["token"] )
+    @current_user = User.find_by(auth_token:
+    request.headers["token"] )
 
     if @current_user
 
@@ -32,21 +31,12 @@ class SessionsController < ApplicationController
     end
   end
 
-
-  protected
-
-  def authenticate_token
-
-    authenticate_or_request_with_http_token do |token, options |
-      User.find_by(auth_token: token)
-    end
-  end
-
-
   def destroy
     logout
     head :ok
   end
+
+  protected
 
 
   def send_token_for_valid_login_of(user)
