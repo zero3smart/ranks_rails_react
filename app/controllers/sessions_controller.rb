@@ -18,8 +18,12 @@ class SessionsController < ApplicationController
   def verify_token
 
 
+    #@current_user = User.find_by(auth_token:
+    #request.headers["token"] )
+
     @current_user = User.find_by(auth_token:
-    request.headers["token"] )
+    params[:auth_token] )
+
 
     if @current_user
 
