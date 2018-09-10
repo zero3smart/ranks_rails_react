@@ -1,5 +1,5 @@
 class UsersController < ApplicationController
-  before_action :set_user, only: [:show, :profile, :update, :destroy]
+  before_action :set_user, only: [:profile, :update_profile, :edit_profile, :destroy]
 
   # GET /users
   def index
