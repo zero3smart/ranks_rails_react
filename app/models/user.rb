@@ -35,12 +35,7 @@ class User < ApplicationRecord
   end
 
 
-def has_valid_token?(token)
-    self.tokens.each do |stored_token|
-      return true if stored_token['auth_token'] == token 
-    end
-    false
-  end
+
  
 
   # Sets the password reset attributes.
@@ -60,17 +55,7 @@ def has_valid_token?(token)
     reset_sent_at < 2.hours.ago
   end
 
-
-  #Carrierwave  uploader
-  #mount_base64_uploader :avatar, AvatarUploader
-  #mount_uploader :avatar, AvatarUploader
-
-
-
-
-  
-
-
+  mount_base64_uploader :avatar, AvatarUploader
 
 
   # Activates an account.

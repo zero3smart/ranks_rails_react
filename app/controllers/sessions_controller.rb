@@ -21,10 +21,6 @@ class SessionsController < ApplicationController
     user = User.find_by(auth_token:
     request.headers["Access"])
 
-    #user = User.find_by(auth_token:
-    #params[:auth_token] )
-
-
     if user
 
       render json: {message:"verified",  status: 200}
@@ -44,7 +40,7 @@ class SessionsController < ApplicationController
 
 
   def send_token_for_valid_login_of(user)
-    #render json: {token:user.auth_token, status: 200}
+  #render json: {token:user.auth_token, status: 200}
   
 
   render plain: user.auth_token, status: 200
