@@ -8,9 +8,9 @@ Rails.application.routes.draw do
     get    'forgot'  => 'password_resets#new'
 
     get   'profile' =>  'users#profile'
-    patch   'profile/edit' =>  'users#edit_profile'
-    update   'profile/update' =>  'users#update_profile'
-    resources :users, param: :auth_token, only: [:index,:new,:create]
+    get   'profile/edit' =>  'users#edit_profile'
+    patch   'profile/update' =>  'users#update_profile'
+    resources :users, param: :auth_token, only: [:index,:new,:create,:destroy]
     
     resources :password_resets, only: [:new, :create, :edit, :update]
 

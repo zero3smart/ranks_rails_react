@@ -25,10 +25,7 @@ class UsersController < ApplicationController
   end
 
   # GET /users/1
-  def show
 
-    render json: @user, status: 200
-  end
 
   # POST /users
   def create
@@ -45,14 +42,7 @@ class UsersController < ApplicationController
   end
 
   # PATCH/PUT /users/1
-  def update
-    if @user.update!(user_params)
 
-      render json: "Account has been updated successfully", status: 200
-    else
-      render json: @user.errors, status: 422
-    end
-  end
 
   # DELETE /users/1
   def destroy
