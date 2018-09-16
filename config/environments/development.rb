@@ -36,7 +36,18 @@ Rails.application.configure do
 
   # Raise an error on page load if there are pending migrations.
   config.active_record.migration_error = :page_load
+  
+  host = 'localhost:3000'
+  config.action_mailer.default_url_options = { host: host, protocol: 'http' }
 
+config.action_mailer.delivery_method = :letter_opener
+config.action_mailer.perform_deliveries = true
+
+Rails.application.routes.default_url_options[:host] = host
+
+
+#config.debug_exception_response_format = :default
+config.debug_exception_response_format = :api
 
   # Raises error for missing translations
   # config.action_view.raise_on_missing_translations = true
