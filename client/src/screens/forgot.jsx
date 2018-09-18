@@ -1,23 +1,95 @@
-import React from "react";
-import axios from "axios";
+import React, { Component } from "react";
 
-export default class Forgot extends React.Component {
+import axios from "axios";
+import NotificationSystem from 'react-notification-system';
+
+class Forgot extends Component {
 	constructor(props) {
 		super(props);
 		this.state = {
 			email: "",
 			error: "",
-			success: ""
+			
+			_notificationSystem: null
 		};
 	}
 
-	componentWillReceiveProps(nextProp) {}
+ componentDidMount() {
+        
+         this._notificationSystem = this.refs.notificationSystem;
+    }
+
+  
+
+
+
+  _addNotification(event) {
+
+        event.preventDefault();
+        this._notificationSystem.addNotification({
+            message: 'Danger!',
+            level: 'error',
+            position: 'tc'
+        });
+    }
+
+
+async forgot() {
+        // this.setState({showProgress: true})
+        try {
+            let response = await fetch("password/forgot", {
+                method: "POST",
+                headers: {
+                    Accept: "application/json",
+                    "Content-Type": "application/json"
+                },
+                body: JSON.stringify({
+                   
+                    email: this.state.email,
+                    
+                })
+            });
+            let res = await response.text();
+            if (response.status >= 200 && response.status < 300) {
+               
+               this._notificationSystem.addNotification({
+                 message: 'Email sent with password reset instructions',
+                level: 'success',
+                position: 'tc'
+            });
+            } else {
+                let error = res;
+               // throw error;
+
+                this._notificationSystem.addNotification({
+                message: 'Email address not found. Please check and try again',
+                level: 'error',
+                position: 'tc'
+            });
+                
+            }
+        } catch (error) {
+            //this.setState({ error: error });
+            console.log( error);
+            // this.setState({ showProgress: false });
+        }
+    }
+
+
+    updateEmail(e) {
+		this.setState({ email: e.target.value });
+	}
 
 	render() {
+
+
 		return (
 			<div className="form">
 				<header>Forgot {this.state.error}</header>
-				<div>{this.state.success}</div>
+				<div>
+				
+                <NotificationSystem ref="notificationSystem" noAnimation={true}/>
+            </div>
 				<div className="body">
 					<div className="form-group">
 						<label htmlFor="email">Email: </label>
@@ -39,68 +111,7 @@ export default class Forgot extends React.Component {
 		);
 	}
 
-	updateEmail(e) {
-		this.setState({ email: e.target.value });
-	}
 
-	forgot() {
-		axios
-			.post("password/forgot", {
-				headers: {
-					//Accept: "application/json",
-					"Content-Type": "application/json"
-				},
-				data: {
-					email: this.state.email
-				}
-			})
-			.then(response => {
-				//let res = response.json();
-				if (response.status >= 200 && response.status < 300) {
-					//return response.json();
-					//this.setState({ sucess: res });
-				} else {
-					//return response.json();
-					//let error = response.json();
-
-					this.setState({
-						error: response.data
-					});
-				}
-			})
-			.catch(error => console.log(error));
-	}
-
-	lorgot() {
-		fetch("password/forgot", {
-			method: "POST",
-			headers: {
-				Accept: "application/json",
-				"Content-Type": "application/json"
-			},
-			body: JSON.stringify({
-				email: this.state.email
-			})
-		})
-			.then(response => {
-				let res = response.json();
-				if (response.status >= 200 && response.status < 300) {
-					//this.setState({ success: this.state.success });
-					//let res = "Success login";
-					return response.json();
-					this.setState({ sucess: res });
-				} else {
-					return response.json();
-
-					this.setState({
-						error: res
-					});
-				}
-			})
-
-			.catch(err => {
-				console.log("Invalid credentials!");
-				//this.setState({ error: res });
-			});
-	}
 }
+
+export default Forgot;

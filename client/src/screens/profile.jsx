@@ -1,9 +1,9 @@
-import React from "react";
 
+import React, { Component } from "react";
 import auth from "../services/auth";
 import { NavLink } from "react-router-dom";
 
-class User extends React.Component {
+class Profile extends Component {
     constructor(props) {
         super(props);
 
@@ -62,4 +62,4 @@ class User extends React.Component {
     }
 }
 
-export default User;
+export default Profile;

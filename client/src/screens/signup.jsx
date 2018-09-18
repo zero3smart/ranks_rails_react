@@ -1,10 +1,11 @@
-import React from "react";
+
+import React, { Component } from "react";
 import { Redirect } from "react-router-dom";
 import auth from "../services/auth";
 
 const auth_token = "auth_token";
 
-export default class Signup extends React.Component {
+class Signup extends Component {
 	constructor() {
 		super();
 
@@ -132,3 +133,5 @@ export default class Signup extends React.Component {
 			.catch(err => {});
 	}
 }
+
+export default Signup;

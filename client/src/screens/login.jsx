@@ -1,23 +1,69 @@
-import React from "react";
+
+import React, { Component } from "react";
 import { Redirect } from "react-router-dom";
 import auth from "../services/auth";
+import NotificationSystem from 'react-notification-system';
 
-export default class Login extends React.Component {
+ class Login extends Component {
 	constructor(props) {
 		super(props);
 		this.state = {
 			email: "",
 			password: "",
-			//error: "",
-			//errors: "",
+			error: "",
 			redirectToLogin: false,
 			redirectToHome: false,
+			_notificationSystem: null
 
-			error: null
+			
 		};
 	}
 
-	componentWillReceiveProps(nextProp) {}
+componentDidMount() {
+        
+         this._notificationSystem = this.refs.notificationSystem;
+    }
+
+    _addNotification(event) {
+
+        event.preventDefault();
+        this._notificationSystem.addNotification({
+            message: 'Danger!',
+            level: 'error',
+            position: 'tc'
+        });
+    }
+
+	updateEmail(e) {
+		this.setState({ email: e.target.value });
+	}
+
+	updatePassword(e) {
+		this.setState({ password: e.target.value });
+	}
+
+	pressLogin() {
+		return auth
+			.login(this.state.email, this.state.password)
+			.then(response => {
+				this.props.updateAuth();
+				//let res = response.text();
+
+				if (response.login_status == false) {
+				  this._notificationSystem.addNotification({
+                 message: 'Email and password combination are invalid',
+                level: 'error',
+                position: 'tc'
+            });
+				} else {
+					this.setState({ redirectToHome: true });
+				}
+			})
+
+			.catch(error => console.log(error));
+	}
+
+	
 
 	render() {
 		// console.log(auth.isAuthenticated())
@@ -36,7 +82,7 @@ export default class Login extends React.Component {
 			<div className="form">
 				<header>Login -{this.state.error}</header>
 
-				<div>{this.state.errors}</div>
+			 <NotificationSystem ref="notificationSystem" noAnimation={true}/>
 
 				<div className="body">
 					<div className="form-group">
@@ -66,29 +112,7 @@ export default class Login extends React.Component {
 		);
 	}
 
-	updateEmail(e) {
-		this.setState({ email: e.target.value });
-	}
-
-	updatePassword(e) {
-		this.setState({ password: e.target.value });
-	}
-
-	pressLogin() {
-		return auth
-			.login(this.state.email, this.state.password)
-			.then(response => {
-				this.props.updateAuth();
-				//let res = response.text();
-
-				if (response.login_status == false) {
-					//return response.json();
-					//throw new Error("Something went wrong ...");
-				} else {
-					this.setState({ redirectToHome: true });
-				}
-			})
-
-			.catch(error => this.setState({ error }));
-	}
+	
 }
+
+export default Login;

@@ -1,10 +1,12 @@
-import React from "react";
+import React, { Component } from "react";
+
 
 import auth from "../services/auth";
 
 import Dropzone from "react-dropzone";
+import NotificationSystem from 'react-notification-system';
 
-class EditUser extends React.Component {
+class EditUser extends Component {
   constructor(props) {
     super(props);
 
@@ -13,13 +15,27 @@ class EditUser extends React.Component {
       avatar: {},
       authToken: "",
       error: "",
-      url: ""
+      url: "",
+      _notificationSystem: null
     };
   }
 
   componentDidMount() {
-    this.fetchUser();
-  }
+          this.fetchUser();
+         this._notificationSystem = this.refs.notificationSystem;
+    }
+
+    _addNotification(event) {
+
+        event.preventDefault();
+        this._notificationSystem.addNotification({
+            message: 'Danger!',
+            level: 'error',
+            position: 'tc'
+        });
+    }
+
+
 
   fetchUser() {
     return fetch("/profile/edit", {
@@ -67,18 +83,25 @@ class EditUser extends React.Component {
         }
       })
     })
-      .then(aa => {
-        if (aa.status == 201) {
+      .then(resp => {
+        if (resp.status >= 200 && resp.status < 300) {
           this.setState({ bio: this.state.bio });
+              this._notificationSystem.addNotification({
+                 message: 'Account has been updated successfully',
+                level: 'success',
+                position: 'tc'
+            });
+
         } else {
-          return aa.json();
+          //return resp.json();
+            this._notificationSystem.addNotification({
+                 message: 'Something went wrong',
+                level: 'error',
+                position: 'tc'
+            });
         }
       })
-      .then(response => {
-        this.setState({
-          errors: response
-        });
-      })
+     
       .catch(err => {});
   }
 
@@ -113,6 +136,7 @@ class EditUser extends React.Component {
     return (
       <div className="form">
         <header>Edit User -{this.state.error}</header>
+         <NotificationSystem ref="notificationSystem" noAnimation={true}/>
 
         <div className="form-group">
           <img src={this.state.url} alt="" />
