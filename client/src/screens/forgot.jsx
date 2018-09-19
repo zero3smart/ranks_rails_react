@@ -1,6 +1,4 @@
 import React, { Component } from "react";
-
-import axios from "axios";
 import NotificationSystem from 'react-notification-system';
 
 class Forgot extends Component {
@@ -34,10 +32,10 @@ class Forgot extends Component {
     }
 
 
-async forgot() {
+async submitEmail() {
         // this.setState({showProgress: true})
         try {
-            let response = await fetch("password/forgot", {
+            let response = await fetch("password_resets", {
                 method: "POST",
                 headers: {
                     Accept: "application/json",
@@ -85,7 +83,7 @@ async forgot() {
 
 		return (
 			<div className="form">
-				<header>Forgot {this.state.error}</header>
+				<header>Forgot</header>
 				<div>
 				
                 <NotificationSystem ref="notificationSystem" noAnimation={true}/>
@@ -103,7 +101,7 @@ async forgot() {
 				</div>
 
 				<footer>
-					<button onClick={this.forgot.bind(this)}>
+					<button onClick={this.submitEmail.bind(this)}>
 						Send password
 					</button>
 				</footer>

@@ -6,13 +6,15 @@ class CreateUsers < ActiveRecord::Migration[5.1]
       t.string :name,  :limit => 140
       t.string :auth_token,  index: true, unique: true, null: false, default: "", :limit => 140
       t.string :avatar
+      
       t.string :bio, :limit => 200
-      t.string :slug, index: true, unique: true
       t.string :email, index: true, unique: true, null: false, default: "", :limit => 140
       t.boolean :admin, default: false
+
       t.string :password_digest,  null: false, default: ""
-      t.string :reset_digest
-      t.datetime :reset_sent
+      t.string :password_reset_token
+      t.datetime :password_reset_sent_at
+
       t.string :activation_digest
       t.boolean :activate, default: false
       t.datetime :activate_at

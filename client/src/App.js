@@ -10,7 +10,7 @@ import Users from "./screens/users";
 import Login from "./screens/login";
 import Signup from "./screens/signup";
 import Forgot from "./screens/forgot";
-
+import ResetPassword from "./screens/resetpassword";
 import Profile from "./screens/profile";
 import EditUser from "./screens/edituser";
 import auth from "./services/auth";
@@ -44,6 +44,7 @@ class App extends Component {
               )}
             />
             <Route path="/forgot" component={Forgot} />
+            <Route  path="/password_resets/:id/edit" component={ResetPassword} />
             <Route path="/signup" component={Signup} />
           </Switch>
         </div>

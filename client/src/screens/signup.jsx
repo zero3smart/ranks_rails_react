@@ -3,6 +3,7 @@ import React, { Component } from "react";
 import { Redirect } from "react-router-dom";
 import auth from "../services/auth";
 
+
 const auth_token = "auth_token";
 
 class Signup extends Component {
@@ -15,7 +16,63 @@ class Signup extends Component {
 			password: "",
 			redirectToLogin: false,
 			errors: false
+			
 		};
+	}
+
+   storeToken(authToken) {
+		try {
+			localStorage.setItem("auth_token", auth_token);
+
+			console.log("Token was stored successfull ");
+		} catch (error) {
+			console.log("Something went wrong");
+		}
+	}
+
+    updateUsername(e) {
+		this.setState({ username: e.target.value });
+	}
+	updateEmail(e) {
+		this.setState({ email: e.target.value });
+	}
+
+	updatePassword(e) {
+		this.setState({ password: e.target.value });
+	}
+
+	
+
+	signUp() {
+		fetch("/users", {
+			method: "POST",
+			headers: {
+				Accept: "application/json",
+				"Content-Type": "application/json"
+			},
+			body: JSON.stringify({
+				user: {
+					username: this.state.username,
+					email: this.state.email,
+					password: this.state.password
+				}
+			})
+		})
+			.then(response => {
+				if (response.status >= 200 && response.status < 300) {
+					this.setState({ redirectToLogin: true });
+				} else {
+					return response.json();
+					let errors = response.json();
+					throw errors;
+				}
+			})
+			.then(response => {
+				this.setState({
+					errors: response
+				});
+			})
+			.catch(err => {});
 	}
 
 	render() {
@@ -80,58 +137,7 @@ class Signup extends Component {
 		);
 	}
 
-	updateUsername(e) {
-		this.setState({ username: e.target.value });
-	}
-	updateEmail(e) {
-		this.setState({ email: e.target.value });
-	}
 
-	updatePassword(e) {
-		this.setState({ password: e.target.value });
-	}
-
-	storeToken(authToken) {
-		try {
-			localStorage.setItem("auth_token", auth_token);
-
-			console.log("Token was stored successfull ");
-		} catch (error) {
-			console.log("Something went wrong");
-		}
-	}
-
-	signUp() {
-		fetch("/users", {
-			method: "POST",
-			headers: {
-				Accept: "application/json",
-				"Content-Type": "application/json"
-			},
-			body: JSON.stringify({
-				user: {
-					username: this.state.username,
-					email: this.state.email,
-					password: this.state.password
-				}
-			})
-		})
-			.then(response => {
-				if (response.status >= 200 && response.status < 300) {
-					this.setState({ redirectToLogin: true });
-				} else {
-					return response.json();
-					let errors = response.json();
-					throw errors;
-				}
-			})
-			.then(response => {
-				this.setState({
-					errors: response
-				});
-			})
-			.catch(err => {});
-	}
 }
 
 export default Signup;

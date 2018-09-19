@@ -1,3 +1,4 @@
+
 Rails.application.routes.draw do
   #resources :users
   # For details on the DSL available within this file, see http://guides.rubyonrails.org/routing.html
@@ -6,17 +7,17 @@ Rails.application.routes.draw do
   delete 'logout'  => 'sessions#destroy'
   get    'verify'  => 'sessions#verify_token'
 
-
-  post 'password/forgot', to: 'passwords#forgot'
-  post 'password/reset', to: 'passwords#reset'
-
   get   'profile' =>  'users#profile'
   get   'profile/edit' =>  'users#edit_profile'
   patch   'profile/update' =>  'users#update_profile'
+
+
+
   resources :users, param: :auth_token, only: [:index,:new,:create,:destroy,:update]
 
-  resources :password_resets, only: [:new, :create, :edit, :update]
+  resources :password_resets, only: [:new, :create, :edit,  :update]
 
+ #resources :password_resets, param: :password_reset_token, only: [:edit]
   root 'users#index'
 
 

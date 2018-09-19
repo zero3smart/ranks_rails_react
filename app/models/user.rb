@@ -35,24 +35,20 @@ class User < ApplicationRecord
   end
 
 
-
-  def generate_password_token!
-    self.reset_password_token = generate_token
-    self.reset_password_sent_at = Time.now.utc
+  def send_password_reset
+    generate_token(:password_reset_token)
+    self.password_reset_sent_at = Time.zone.now
     save!
-  end
-
-  def password_token_valid?
-    (self.reset_password_sent_at + 4.hours) > Time.now.utc
+    UserMailer.password_reset(self).deliver_now
   end
 
   def reset_password!(password)
-    self.reset_password_token = nil
+    self.password_reset_token = nil
     self.password = password
     save!
   end
 
- 
+
 
 
   mount_base64_uploader :avatar, AvatarUploader
@@ -77,11 +73,12 @@ class User < ApplicationRecord
 
   private
 
-
-
-  def generate_token
-    SecureRandom.hex(10)
+  def generate_token(column)
+    begin
+      self[column] = SecureRandom.urlsafe_base64
+    end while User.exists?(column => self[column])
   end
+
 
 
   # Converts email to all lower-case.
