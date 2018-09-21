@@ -3,13 +3,15 @@ class SessionsController < ApplicationController
 
   def create
     if user = User.validate_login(params[:email], params[:password])
-      allow_token_to_be_used_only_once_for(user)
-      send_token_for_valid_login_of(user)
-    else
+      if user.confirmation_email
+        allow_token_to_be_used_only_once_for(user)
+        send_token_for_valid_login_of(user)
+      else
 
 
-      render_json_error 401, "Email and password combination are invalid"
+        render_json_error 401, "Email and password combination are invalid"
 
+      end
     end
   end
 

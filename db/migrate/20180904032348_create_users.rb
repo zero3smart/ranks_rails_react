@@ -15,9 +15,9 @@ class CreateUsers < ActiveRecord::Migration[5.1]
       t.string :password_reset_token
       t.datetime :password_reset_sent_at
 
-      t.string :activation_digest
-      t.boolean :activate, default: false
-      t.datetime :activate_at
+      t.string :confirmation_token, null: false, default: ""
+      t.boolean :confirmation_email, default: false
+    
 
 
       t.timestamps

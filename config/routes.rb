@@ -13,11 +13,20 @@ Rails.application.routes.draw do
 
 
 
-  resources :users, param: :auth_token, only: [:index,:new,:create,:destroy,:update]
+  resources :users, param: :auth_token, only: [:index,:new,:create,:destroy,:update] 
+   
+  
+#confirmation email router
+    resources :users,  only: [:not] do
+    member do
+      get :confirm_email
+    end
+  end
+
 
   resources :password_resets, only: [:new, :create, :edit,  :update]
 
- #resources :password_resets, param: :password_reset_token, only: [:edit]
+
   root 'users#index'
 
 

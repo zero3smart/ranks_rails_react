@@ -1,7 +1,7 @@
 class User < ApplicationRecord
 
 
-  before_save   :downcase_email
+  before_create   :downcase_email, :confirm_token
 
 
   validates :username,uniqueness: { case_sensitive: false }, presence: true,
@@ -40,6 +40,7 @@ class User < ApplicationRecord
     self.password_reset_sent_at = Time.zone.now
     save!
     UserMailer.password_reset(self).deliver_now
+
   end
 
   def reset_password!(password)
@@ -52,6 +53,8 @@ class User < ApplicationRecord
 
 
   mount_base64_uploader :avatar, AvatarUploader
+
+
 
 
   # Activates an account.
@@ -71,7 +74,19 @@ class User < ApplicationRecord
   # self.activation_digest = User.digest(activation_token)
   # end
 
+  def email_activate
+    self.confirmation_email = true
+    self.confirmation_token = nil
+    save!(:validate => false)
+  end
+
   private
+  #activate confirmation method
+  def confirm_token
+    if self.confirmation_token.blank?
+      self.confirmation_token = SecureRandom.urlsafe_base64.to_s
+    end
+  end
 
   def generate_token(column)
     begin

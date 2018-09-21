@@ -36,15 +36,17 @@ class UsersController < ApplicationController
   # POST /users
   def create
     #p@user = User.create!(user_params)
-  @user = User.create(user_params)
+    @user = User.create(user_params)
 
     if @user.save
 
       render plain: @user.auth_token, status: 201
 
+      UserMailer.registration_confirmation(@user).deliver
+
     else
       render json: @user.errors, status: 409
-    
+
 
     end
   end
@@ -58,6 +60,22 @@ class UsersController < ApplicationController
       render json: "Account has been deleted successfuly", status: 200
     else
       render json: "Something went wrong", status: 409
+    end
+  end
+
+  #confirmation method
+ 
+
+  def confirm_email
+    user = User.find_by_confirmation_token(params[:id])
+    if user
+      user.email_activate
+
+      render json: "Welcome to the Sample App! Your email has been confirmed.
+      Please sign in to continue.", status: 201
+    else
+
+      render json: "Sorry. User does not exist", status: 409
     end
   end
 

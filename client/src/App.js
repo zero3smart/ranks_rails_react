@@ -14,6 +14,7 @@ import ResetPassword from "./screens/resetpassword";
 import Profile from "./screens/profile";
 import EditUser from "./screens/edituser";
 import auth from "./services/auth";
+import UserConfirmation from "./screens/userconfirmation";
 
 class App extends Component {
   constructor() {
@@ -44,8 +45,9 @@ class App extends Component {
               )}
             />
             <Route path="/forgot" component={Forgot} />
-            <Route  path="/password_resets/:id/edit" component={ResetPassword} />
+            <Route path="/password_resets/:id/edit" component={ResetPassword} />
             <Route path="/signup" component={Signup} />
+            <Route path="/users/:id/confirm_email" component={UserConfirmation} />
           </Switch>
         </div>
       </Router>

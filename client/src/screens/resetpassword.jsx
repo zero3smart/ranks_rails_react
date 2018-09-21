@@ -68,37 +68,7 @@ class ResetPassword extends Component {
 
 
 
-submiStPasssword() {
-  fetch("/users", {
-      method: "POST",
-      headers: {
-        Accept: "application/json",
-        "Content-Type": "application/json"
-      },
-      body: JSON.stringify({
-     
-      
-          password: this.state.password,
-           password_confirmation: this.state.password_confirmation
-       
-      })
-    })
-      .then(response => {
-        if (response.status >= 200 && response.status < 300) {
-          this.setState({ redirectToLogin: true });
-        } else {
-          return response.json();
-          let errors = response.json();
-          throw errors;
-        }
-      })
-      .then(response => {
-        this.setState({
-          error: response
-        });
-      })
-      .catch(err => {});
- }
+
 
 async submitPasssword() {
         // this.setState({showProgress: true})

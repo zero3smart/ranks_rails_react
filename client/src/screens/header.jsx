@@ -7,7 +7,7 @@ const AuthLinks = props => {
   return (
     <div className="toplinks">
       <div className="toplinks_inner">
-        <a href="#" onClick={props.logout} className="link">
+        <a href={null} onClick={props.logout} className="link">
           Logout
         </a>
 
