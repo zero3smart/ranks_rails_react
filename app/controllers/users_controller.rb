@@ -1,5 +1,5 @@
 class UsersController < ApplicationController
-  before_action :set_user, only: [:profile, :update_profile, :edit_profile, :destroy]
+  before_action :set_user, only: [:profile, :update_profile, :edit_profile, :destroy, :update_password]
 
 
 
@@ -64,7 +64,7 @@ class UsersController < ApplicationController
   end
 
   #confirmation method
- 
+
 
   def confirm_email
     user = User.find_by_confirmation_token(params[:id])
@@ -79,19 +79,47 @@ class UsersController < ApplicationController
     end
   end
 
-  private
-  # Use callbacks to share common setup or constraints between actions.
-  def set_user
-    #@user = User.find_by(auth_token: params[:auth_token])
-    @user = User.find_by(auth_token: request.headers["Access"])
 
+
+
+  def update_password
+
+    @user.changing_password = true
+    if @user.update_attributes(password_params)
+
+      render json: "Successfully changed password.", status: 200
+    else
+   
+      render json: "Sorry. some error on update the password", status: 409
+    end
+  end
+
+
+
+
+
+
+
+
+
+
+  private
+
+  def set_user
+
+    @user = User.find_by(auth_token: request.headers["Access"])
 
 
   end
 
-  # Only allow a trusted parameter "white list" through.
+
   def user_params
     params.require(:user).permit(:username, :name, :bio, :avatar, :email,
                                  :password, :password_digest, :auth_token, :reset_digest, :reset_sent_at)
+  end
+
+
+  def password_params
+    params.require(:user).permit(:original_password, :new_password, :new_password_confirmation)
   end
 end

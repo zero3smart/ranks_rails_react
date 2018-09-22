@@ -10,6 +10,9 @@ const AuthLinks = props => {
         <a href={null} onClick={props.logout} className="link">
           Logout
         </a>
+ <NavLink to="/posts/new" className="link">
+          Post
+        </NavLink>
 
         <NavLink to="/profile" className="link">
           Profile

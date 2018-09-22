@@ -1,5 +1,14 @@
 class User < ApplicationRecord
 
+  attr_accessor :changing_password, :original_password, :new_password
+
+  validate :verify_original_password, if: :changing_password
+  validates_presence_of :original_password, :new_password, if: :changing_password
+  validates_confirmation_of :new_password, if: :changing_password
+  validates_length_of :new_password, minimum: 6, if: :changing_password
+
+  before_update :change_password, if: :changing_password
+
 
   before_create   :downcase_email, :confirm_token
 
@@ -7,7 +16,7 @@ class User < ApplicationRecord
   validates :username,uniqueness: { case_sensitive: false }, presence: true,
     :on => :create
 
-
+  has_many :posts
 
   validates :password, length: { minimum: 6 }, allow_nil: false, :on => :create
 
@@ -29,7 +38,7 @@ class User < ApplicationRecord
 
   def self.validate_login(email,password)
     user = find_by(email: email)
-    if user && user.authenticate(password)
+    if user && user.authenticate(password) && user.confirmation_email
       user
     end
   end
@@ -50,29 +59,21 @@ class User < ApplicationRecord
   end
 
 
+  #update password methods
+  def verify_original_password
+    unless self.authenticate(original_password)
+      errors.add :original_password, "is not correct"
+    end
+  end
+
+  def change_password
+    self.password = new_password
+  end
 
 
   mount_base64_uploader :avatar, AvatarUploader
 
 
-
-
-  # Activates an account.
-  #def activate
-  # update_attribute(:activated,    true)
-  #update_attribute(:activated_at, Time.zone.now)
-  #end
-
-  # Sends activation email.
-  #def send_activation_email
-  # UserMailer.account_activation(self).deliver_now
-  #end
-
-  # Creates and assigns the activation token and digest.def
-  #def create_activation_digest
-  # self.activation_token  = new_token
-  # self.activation_digest = User.digest(activation_token)
-  # end
 
   def email_activate
     self.confirmation_email = true
@@ -90,7 +91,7 @@ class User < ApplicationRecord
 
   def generate_token(column)
     begin
-      self[column] = SecureRandom.urlsafe_base64
+      self[column] = SecureRandom.urlsafe_base64.to_s
     end while User.exists?(column => self[column])
   end
 

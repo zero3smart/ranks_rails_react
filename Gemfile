@@ -21,8 +21,9 @@ gem 'mini_magick'
 gem 'carrierwave'
 gem 'carrierwave-base64'
 
-#gem 'active_model_serializers', '~> 0.10.0'
+
 gem 'fast_jsonapi'
+gem 'will_paginate'
 #gem 'error_responder'
 
 

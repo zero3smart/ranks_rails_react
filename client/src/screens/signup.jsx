@@ -88,7 +88,7 @@ class Signup extends Component {
 		}
 
 		if (auth.isAuthenticated()) {
-			return <Redirect to="/users" />;
+			return <Redirect to="/posts" />;
 		}
 
 		if (this.state.redirectToLogin) {
@@ -102,7 +102,7 @@ class Signup extends Component {
 					<div className="form-group">
 						<label htmlFor="username">Username: </label>
 						<input
-							type="username"
+							type="input"
 							id="username"
 							value={this.state.username}
 							onChange={this.updateUsername.bind(this)}

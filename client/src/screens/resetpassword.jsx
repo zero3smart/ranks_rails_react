@@ -98,7 +98,7 @@ async submitPasssword() {
                 position: 'tc'
             });
             } else {
-                let error = res;
+                //let error = res;
                // throw error;
 
                 this._notificationSystem.addNotification({

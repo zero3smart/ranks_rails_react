@@ -6,7 +6,7 @@ class Forgot extends Component {
 		super(props);
 		this.state = {
 			email: "",
-			error: "",
+		
 			
 			_notificationSystem: null
 		};
@@ -47,7 +47,7 @@ async submitEmail() {
                     
                 })
             });
-            let res = await response.text();
+            //let res = await response.text();
             if (response.status >= 200 && response.status < 300) {
                
                this._notificationSystem.addNotification({
@@ -56,7 +56,7 @@ async submitEmail() {
                 position: 'tc'
             });
             } else {
-                let error = res;
+                //let error = res;
                // throw error;
 
                 this._notificationSystem.addNotification({

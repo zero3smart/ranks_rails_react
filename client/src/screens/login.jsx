@@ -69,13 +69,13 @@ componentDidMount() {
 		// console.log(auth.isAuthenticated())
 		if (auth.isAuthenticated()) {
 			const { from } = this.props.location.state || {
-				from: { pathname: "/users" }
+				from: { pathname: "/posts" }
 			};
 			return <Redirect to={from} />;
 		}
 		if (this.state.redirectToHome) {
 			// console.log('asdasdasd')
-			return <Redirect to="/users" />;
+			return <Redirect to="/posts" />;
 		}
 
 		return (

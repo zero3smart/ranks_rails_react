@@ -16,7 +16,10 @@ class EditUser extends Component {
       authToken: "",
       error: "",
       url: "",
-      _notificationSystem: null
+      _notificationSystem: null,
+      original_password: "",
+      new_password: "",
+      new_password_confirmation: ""
     };
   }
 
@@ -67,6 +70,17 @@ class EditUser extends Component {
   updateBio(e) {
     this.setState({ bio: e.target.value });
   }
+   updateOriginalPassword(e) {
+    this.setState({ original_password: e.target.value });
+  }
+
+   updateNewPassword(e) {
+    this.setState({ new_password: e.target.value });
+  }
+
+  updateNewPasswordConfirmation(e) {
+    this.setState({ new_password_confirmation: e.target.value });
+  }
 
   updateUser() {
     fetch("/profile/update", {
@@ -88,6 +102,46 @@ class EditUser extends Component {
           this.setState({ bio: this.state.bio });
               this._notificationSystem.addNotification({
                  message: 'Account has been updated successfully',
+                level: 'success',
+                position: 'tc'
+            });
+
+        } else {
+          //return resp.json();
+            this._notificationSystem.addNotification({
+                 message: 'Something went wrong',
+                level: 'error',
+                position: 'tc'
+            });
+        }
+      })
+     
+      .catch(err => {});
+  }
+
+
+
+   updatePassword() {
+    fetch("/profile/password", {
+      method: "POST",
+      headers: {
+        Accept: "application/json",
+        "Content-Type": "application/json",
+        Access: auth.getToken()
+      },
+      body: JSON.stringify({
+        user: {
+          original_password: this.state.original_password,
+          new_password: this.state.new_password,
+           new_password_confirmation: this.state.new_password_confirmation
+        }
+      })
+    })
+      .then(resp => {
+        if (resp.status >= 200 && resp.status < 300) {
+          //this.setState({ bio: this.state.bio });
+              this._notificationSystem.addNotification({
+                 message: 'Successfully changed password.',
                 level: 'success',
                 position: 'tc'
             });
@@ -135,7 +189,7 @@ class EditUser extends Component {
   render() {
     return (
       <div className="form">
-        <header>Edit User -{this.state.error}</header>
+        <header>Edit User</header>
          <NotificationSystem ref="notificationSystem" noAnimation={true}/>
 
         <div className="form-group">
@@ -164,9 +218,10 @@ class EditUser extends Component {
         <div className="form-group">
           <label htmlFor="email">Bio: </label>
           <textarea
-            type="bio"
+            type="text"
             id="bio"
-            value={this.state.bio}
+         
+            value="This is a description."
             onChange={this.updateBio.bind(this)}
           />
         </div>
@@ -174,6 +229,43 @@ class EditUser extends Component {
         <footer>
           <button onClick={this.updateUser.bind(this)}>Update Profile</button>
         </footer>
+
+
+<div>Change Password</div>
+
+
+
+        <div className="form-group">
+          <label htmlFor="original_password">Current: </label>
+          <input
+          type="password"
+            id="original_password"
+            value={this.state.original_password}
+            onChange={this.updateOriginalPassword.bind(this)}
+          />
+        </div>
+
+        <div className="form-group">
+          <label htmlFor="email">New: </label>
+          <input
+            type="password"
+            id="new_password"
+            value={this.state.new_password}
+            onChange={this.updateNewPassword.bind(this)}
+          />
+        </div>
+
+         <div className="form-group">
+          <label htmlFor="new_password_confirmation">Re-type new: </label>
+          <input
+          type="password"
+            id="new_password_confirmation"
+            value={this.state.new_password_confirmation}
+            onChange={this.updateNewPasswordConfirmation.bind(this)}
+          />
+        </div>
+
+<div><button onClick={this.updatePassword.bind(this)}>Update Password</button></div>
       </div>
     );
   }

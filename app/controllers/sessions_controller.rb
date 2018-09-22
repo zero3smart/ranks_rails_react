@@ -3,7 +3,7 @@ class SessionsController < ApplicationController
 
   def create
     if user = User.validate_login(params[:email], params[:password])
-      if user.confirmation_email
+      # user.confirmation_email
         allow_token_to_be_used_only_once_for(user)
         send_token_for_valid_login_of(user)
       else
@@ -13,7 +13,7 @@ class SessionsController < ApplicationController
 
       end
     end
-  end
+  
 
 
 

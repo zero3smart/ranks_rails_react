@@ -15,6 +15,9 @@ import Profile from "./screens/profile";
 import EditUser from "./screens/edituser";
 import auth from "./services/auth";
 import UserConfirmation from "./screens/userconfirmation";
+import Post from "./screens/post";
+import Posts from "./screens/posts";
+
 
 class App extends Component {
   constructor() {
@@ -36,8 +39,10 @@ class App extends Component {
 
           <Switch>
             <PrivateRoute exact path="/users" component={Users} />
+            <PrivateRoute exact path="/posts" component={Posts} />
             <PrivateRoute exact path="/profile" component={Profile} />
             <PrivateRoute exact path="/profile/edit" component={EditUser} />
+             <PrivateRoute exact path="/posts/new" component={Post} />
             <Route
               path="/login"
               render={props => (
@@ -48,6 +53,9 @@ class App extends Component {
             <Route path="/password_resets/:id/edit" component={ResetPassword} />
             <Route path="/signup" component={Signup} />
             <Route path="/users/:id/confirm_email" component={UserConfirmation} />
+           
+            
+          
           </Switch>
         </div>
       </Router>
