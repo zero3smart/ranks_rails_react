@@ -4,15 +4,14 @@ class PostsController < ApplicationController
 
   # GET /posts
   # GET /posts.json
-  def index
+  def indexx
     @posts = Post.all
     render json: @posts, status: 200
   end
 
-  def indexx
+  def index
     render json: {
       posts: Post.paginate(page: page),
-      #.order(sort_by + ' ' + order),
       page: page,
       pages: Post.pages
 

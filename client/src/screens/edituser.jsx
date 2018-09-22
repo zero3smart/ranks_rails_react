@@ -1,6 +1,4 @@
 import React, { Component } from "react";
-
-
 import auth from "../services/auth";
 
 import Dropzone from "react-dropzone";
@@ -139,7 +137,7 @@ class EditUser extends Component {
     })
       .then(resp => {
         if (resp.status >= 200 && resp.status < 300) {
-          //this.setState({ bio: this.state.bio });
+          
               this._notificationSystem.addNotification({
                  message: 'Successfully changed password.',
                 level: 'success',

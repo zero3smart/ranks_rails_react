@@ -1,22 +1,69 @@
 import React, { Component } from "react";
-
+import Pagination from "../components/pagination";
+import NotificationSystem from 'react-notification-system';
+import auth from "../services/auth";
+import axios from 'axios';
 class Posts extends Component {
+
   constructor(props) {
     super(props);
     this.state = {
-      posts: []
+      posts: [],
+      data: [],
+       page: 1,
+      pages: 0,
+      error: ""
     };
   }
 
+
+
   componentDidMount() {
-    fetch("/posts.json")
-      .then(response => {
-        return response.json();
-      })
-      .then(data => {
-        this.setState({ posts: data });
-      });
+  this.fetchPosts(this.state.page);
   }
+
+
+async fetchPosts(page) {
+  var self = this;
+  try {
+    const response = await axios.get('/posts', {
+     headers: {
+        Accept: "application/json",
+        "Content-Type": "application/json",
+        Access: auth.getToken()
+      },
+      data: { page: page },
+
+//data: { page: this.state.page },
+});
+      
+ if (response.status >= 200 && response.status < 300) {
+        
+         self.setState({ posts: response.data.posts, pages: parseInt(response.data.pages),
+         page: parseInt(response.data.page) });
+
+            } else {
+              
+                this._notificationSystem.addNotification({
+                message: 'Password not present, please check and try again',
+                level: 'error',
+                position: 'tc'
+            });
+                
+            }
+
+
+  } catch (error) {
+    console.error(error);
+  }
+}
+
+
+    handleChangePage(page) {
+    this.fetchPosts(page);
+  }
+
+  
 
   render() {
     var posts = this.state.posts.map(post => {
@@ -29,7 +76,18 @@ class Posts extends Component {
       );
     });
 
-    return <div>{posts}</div>;
+    return (
+      <div>
+
+                <NotificationSystem ref="notificationSystem" noAnimation={true}/>
+      {posts}
+      
+ <Pagination page={this.state.page}
+                        pages={this.state.pages}
+                        handleChangePage={this.handleChangePage} />
+                        </div>
+
+      );
   }
 }
 

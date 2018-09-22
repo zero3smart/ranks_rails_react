@@ -18,10 +18,10 @@ class Profile extends Component {
     }
 
     componentDidMount() {
-        this.fetchUserId();
+        this.fetchUser();
     }
 
-    fetchUserId() {
+    fetchUser() {
         return fetch("/profile", {
             method: "GET",
             headers: {
