@@ -13,7 +13,7 @@ export default {
         return auth_token;
     },
 
-    login(email, password) {
+    login(username, password) {
         return fetch("/login", {
             method: "POST",
             headers: {
@@ -21,8 +21,8 @@ export default {
                 "Content-Type": "application/json"
             },
             body: JSON.stringify({
-                email: email,
-                password: password
+                username: username
+
             })
         })
             .then(resp => {

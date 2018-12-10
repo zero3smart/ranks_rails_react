@@ -10,45 +10,38 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20180921213355) do
+ActiveRecord::Schema.define(version: 20181006015641) do
 
-  create_table "posts", force: :cascade do |t|
-    t.string "title", limit: 140
-    t.text "body", limit: 250
-    t.integer "user_id", null: false
+  create_table "comments", force: :cascade do |t|
+    t.integer "commentable_id"
+    t.string "commentable_type"
+    t.text "comment"
+    t.text "body"
+    t.string "subject"
+    t.integer "user_id"
+    t.integer "parent_id"
+    t.integer "lft"
+    t.integer "rgt"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.index ["user_id"], name: "index_posts_on_user_id"
+    t.index ["commentable_id", "commentable_type"], name: "index_comments_on_commentable_id_and_commentable_type"
+    t.index ["user_id"], name: "index_comments_on_user_id"
+  end
+
+  create_table "posts", force: :cascade do |t|
+    t.text "body"
+    t.string "title"
+    t.integer "user_id"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
   end
 
   create_table "users", force: :cascade do |t|
-    t.string "username", limit: 140, default: "", null: false
-    t.string "name", limit: 140
-    t.string "access_token", limit: 140, default: "", null: false
-    t.string "avatar"
-    t.string "bio", limit: 200
-    t.string "slug"
-    t.string "email", default: "", null: false
-    t.boolean "admin", default: false
-    t.string "password_digest", default: "", null: false
-    t.string "reset_digest"
-    t.datetime "reset_sent"
-    t.string "activation_digest"
-    t.boolean "activate", default: false
-    t.datetime "activate_at"
+    t.string "username"
+    t.string "email"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.string "auth_token", limit: 140, default: "", null: false
-    t.string "reset_password_token"
-    t.datetime "reset_password_sent_at"
-    t.string "password_reset_token"
-    t.datetime "password_reset_sent_at"
-    t.string "confirmation_token"
-    t.boolean "confirmation_email", default: false
-    t.index ["access_token"], name: "index_users_on_access_token"
-    t.index ["email"], name: "index_users_on_email"
-    t.index ["slug"], name: "index_users_on_slug"
-    t.index ["username"], name: "index_users_on_username"
+    t.string "auth_token"
   end
 
 end

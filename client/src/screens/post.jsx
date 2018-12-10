@@ -1,7 +1,7 @@
 
 import React, { Component } from "react";
 import { Redirect } from "react-router-dom";
-import auth from "../services/auth";
+
 
 
 class Post extends Component {
@@ -41,15 +41,12 @@ class Post extends Component {
             headers: {
                 Accept: "application/json",
                 "Content-Type": "application/json",
-                Access: auth.getToken()
+               
             }
         })
             .then(response => response.json())
             .then(json => {
-                this.setState({
-                    user_id: auth.getToken()
-                 
-                });
+                
             })
             .catch(error => {
                 console.error(error);
@@ -64,7 +61,7 @@ class Post extends Component {
 			headers: {
 				Accept: "application/json",
 				"Content-Type": "application/json",
-				 Access: auth.getToken()
+				 
 			},
 			body: JSON.stringify({
 				post: {
@@ -104,9 +101,7 @@ class Post extends Component {
 			}
 		}
 
-		if (this.state.redirectToLogin) {
-			return <Redirect to="/login" />;
-		}
+		
 
 		return (
 			<div className="form">

@@ -37,9 +37,7 @@ class Signup extends Component {
 		this.setState({ email: e.target.value });
 	}
 
-	updatePassword(e) {
-		this.setState({ password: e.target.value });
-	}
+
 
 	
 
@@ -53,8 +51,8 @@ class Signup extends Component {
 			body: JSON.stringify({
 				user: {
 					username: this.state.username,
-					email: this.state.email,
-					password: this.state.password
+					email: this.state.email
+					
 				}
 			})
 		})
@@ -118,15 +116,7 @@ class Signup extends Component {
 							onChange={this.updateEmail.bind(this)}
 						/>
 					</div>
-					<div className="form-group">
-						<label htmlFor="password">Password: </label>
-						<input
-							type="password"
-							id="password"
-							value={this.state.password}
-							onChange={this.updatePassword.bind(this)}
-						/>
-					</div>
+				
 				</div>
 				<footer>
 					<button onClick={this.signUp.bind(this)}>Sign Up</button>

@@ -23,8 +23,4 @@ test:
 
 production:
   <<: *default
-  database: dbr941e7iet7h0
-  user: khldahrkglqnfb
-  host: ec2-184-72-247-70.compute-1.amazonaws.com
-  password: 803d326053c43c366c4e1036428a275b80306aab69376bc4b77a96a2573c3f04
-  port: 5432  
+

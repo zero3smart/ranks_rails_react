@@ -17,10 +17,11 @@ class ApplicationController < ActionController::API
 
 
 
-
-  def current_user
+ def current_user
     @current_user ||= User.find_by(auth_token: request.headers["Access"])
   end
+
+
 
 
 end

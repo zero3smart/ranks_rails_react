@@ -15,6 +15,7 @@ gem 'puma', '~> 3.7'
 # Build JSON APIs with ease. Read more: https://github.com/rails/jbuilder
 gem 'jbuilder', '~> 2.5'
 gem 'bcrypt', '~> 3.1.7'
+gem 'byebug'
 
 #uploader
 gem 'mini_magick'
@@ -24,7 +25,7 @@ gem 'carrierwave-base64'
 
 gem 'fast_jsonapi'
 gem 'will_paginate'
-#gem 'error_responder'
+gem 'acts_as_commentable_with_threading'
 
 
 # Use Rack CORS for handling Cross-Origin Resource Sharing (CORS), making cross-origin AJAX possible

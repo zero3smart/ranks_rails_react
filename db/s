@@ -1,0 +1,2 @@
+update comments set body = 'xxxx' where id = 1;
+select * from comments;

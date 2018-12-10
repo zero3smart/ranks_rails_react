@@ -13,10 +13,10 @@ const AuthLinks = props => {
  <NavLink to="/posts/new" className="link">
           Post
         </NavLink>
-
-        <NavLink to="/profile" className="link">
-          Profile
+ <NavLink to="/posts" className="link">
+          Posts
         </NavLink>
+     
       </div>
     </div>
   );
@@ -31,9 +31,7 @@ const UnauthLinks = () => (
       <NavLink to="/signup" className="link">
         Sign Up
       </NavLink>
-      <NavLink to="/forgot" className="link">
-        Forgot Your Password?
-      </NavLink>
+    
     </div>
   </div>
 );

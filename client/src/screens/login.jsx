@@ -7,20 +7,23 @@ import NotificationSystem from 'react-notification-system';
  class Login extends Component {
 	constructor(props) {
 		super(props);
+		debugger;
 		this.state = {
-			email: "",
-			password: "",
+			username: "",
+
+
 			error: "",
 			redirectToLogin: false,
 			redirectToHome: false,
 			_notificationSystem: null
 
-			
+
 		};
+		console.log(props);
 	}
 
 componentDidMount() {
-        
+
          this._notificationSystem = this.refs.notificationSystem;
     }
 
@@ -34,17 +37,18 @@ componentDidMount() {
         });
     }
 
-	updateEmail(e) {
-		this.setState({ email: e.target.value });
+	//updateEmail(e) {
+	//	this.setState({ email: e.target.value });
+	//}
+
+	updateUsername(e) {
+		this.setState({ username: e.target.value });
 	}
 
-	updatePassword(e) {
-		this.setState({ password: e.target.value });
-	}
 
 	pressLogin() {
 		return auth
-			.login(this.state.email, this.state.password)
+			.login(this.state.username)
 			.then(response => {
 				this.props.updateAuth();
 				//let res = response.text();
@@ -63,7 +67,7 @@ componentDidMount() {
 			.catch(error => console.log(error));
 	}
 
-	
+
 
 	render() {
 		// console.log(auth.isAuthenticated())
@@ -85,24 +89,19 @@ componentDidMount() {
 			 <NotificationSystem ref="notificationSystem" noAnimation={true}/>
 
 				<div className="body">
+
+
+
 					<div className="form-group">
-						<label htmlFor="email">Email: </label>
+						<label htmlFor="username">Username: </label>
 						<input
-							type="email"
-							id="email"
-							value={this.state.email}
-							onChange={this.updateEmail.bind(this)}
+							type="username"
+							id="username"
+							value={this.state.username}
+							onChange={this.updateUsername.bind(this)}
 						/>
 					</div>
-					<div className="form-group">
-						<label htmlFor="password">Password: </label>
-						<input
-							type="password"
-							id="password"
-							value={this.state.password}
-							onChange={this.updatePassword.bind(this)}
-						/>
-					</div>
+
 				</div>
 
 				<footer>
@@ -112,7 +111,7 @@ componentDidMount() {
 		);
 	}
 
-	
+
 }
 
 export default Login;
